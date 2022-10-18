@@ -34,5 +34,6 @@ public class UtilQuery extends UtilConfig {
 		}
 		
 		return element.getTextContent().trim();
+
 	}
 }

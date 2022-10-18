@@ -1,6 +1,5 @@
 package com.xml.util;
 
-
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathFactory;
 import java.util.HashMap;
@@ -29,38 +28,45 @@ public class UtilTransform extends UtilConfig {
 
 	private static final ArrayList<Map<String, String>> list = new ArrayList<Map<String, String>>();
 
-	private static Map<String, String> m = null;
+	private static Map<String, String> map = null;
 
-	public static void rEQUESTtRANSFORM() throws Exception {
+	private static final String REQUEST_XML_PATH = "src/com/xml/source/EmployeeRequest.xml";
+	private static final String MODIFIED_XSL_PATH = "src/com/xml/source/Employee-modified.xsl";
+	private static final String RESPONSE_XML_PATH = "src/com/xml/source/EmployeeResponse.xml";
 
-		Source x = new StreamSource(new File("src/com/xml/source/EmployeeRequest.xml"));
-		Source s = new StreamSource(new File("src/com/xml/source/Employee-modified.xsl"));
-		Result o = new StreamResult(new File("src/com/xml/source/EmployeeResponse.xml"));
-		TransformerFactory.newInstance().newTransformer(s).transform(x, o);
+	public static void requestTransform() throws Exception {
+
+		Source requestXML = new StreamSource(new File(REQUEST_XML_PATH));
+		Source modifiedXSL = new StreamSource(new File(MODIFIED_XSL_PATH));
+		Result responseXML = new StreamResult(new File(RESPONSE_XML_PATH));
+
+		TransformerFactory.newInstance().newTransformer(modifiedXSL).transform(requestXML, responseXML);
 	}
 
-	public static ArrayList<Map<String, String>> XMLXPATHS() throws Exception {
+	public static ArrayList<Map<String, String>> xmlPaths() throws Exception {
 
 		Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder()
 				.parse("src/com/xml/source/EmployeeResponse.xml");
+
 		XPath x = XPathFactory.newInstance().newXPath();
 		int n = Integer.parseInt((String) x.compile("count(//Employees/Employee)").evaluate(d, XPathConstants.STRING));
 		for (int i = 1; i <= n; i++) {
-			m = new HashMap<String, String>();
-			m.put("XpathEmployeeIDKey", (String) x.compile("//Employees/Employee[" + i + "]/EmployeeID/text()")
+			map = new HashMap<String, String>();
+			map.put("XpathEmployeeIDKey", (String) x.compile("//Employees/Employee[" + i + "]/EmployeeID/text()")
 					.evaluate(d, XPathConstants.STRING));
-			m.put("XpathEmployeeNameKey", (String) x.compile("//Employees/Employee[" + i + "]/EmployeeFullName/text()")
-					.evaluate(d, XPathConstants.STRING));
-			m.put("XpathEmployeeAddressKey",
+			map.put("XpathEmployeeNameKey",
+					(String) x.compile("//Employees/Employee[" + i + "]/EmployeeFullName/text()").evaluate(d,
+							XPathConstants.STRING));
+			map.put("XpathEmployeeAddressKey",
 					(String) x.compile("//Employees/Employee[" + i + "]/EmployeeFullAddress/text()").evaluate(d,
 							XPathConstants.STRING));
-			m.put("XpathFacultyNameKey", (String) x.compile("//Employees/Employee[" + i + "]/FacultyName/text()")
+			map.put("XpathFacultyNameKey", (String) x.compile("//Employees/Employee[" + i + "]/FacultyName/text()")
 					.evaluate(d, XPathConstants.STRING));
-			m.put("XpathDepartmentKey", (String) x.compile("//Employees/Employee[" + i + "]/Department/text()")
+			map.put("XpathDepartmentKey", (String) x.compile("//Employees/Employee[" + i + "]/Department/text()")
 					.evaluate(d, XPathConstants.STRING));
-			m.put("XpathDesignationKey", (String) x.compile("//Employees/Employee[" + i + "]/Designation/text()")
+			map.put("XpathDesignationKey", (String) x.compile("//Employees/Employee[" + i + "]/Designation/text()")
 					.evaluate(d, XPathConstants.STRING));
-			list.add(m);
+			list.add(map);
 		}
 		return list;
 	}

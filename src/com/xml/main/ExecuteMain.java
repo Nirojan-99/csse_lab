@@ -13,18 +13,19 @@ public class ExecuteMain {
 //	 * @param args
 //	 */
 	public static void main(String[] args) {
-//
+
 		EmployeeService employeeService = new EmployeeService();
 		
 		try {
 			
-			UtilTransform.rEQUESTtRANSFORM();
+			UtilTransform.requestTransform();
 			employeeService.employeeFromXML();
 			employeeService.employeeTableCreate();
 			employeeService.addEmployees();
-////			employeeService.eMPLOYEEGETBYID("EMP10004");
-////			employeeService.EMPLOYEEDELETE("EMP10001");
 			employeeService.displayEmployee();
+			
+//			employeeService.eMPLOYEEGETBYID("EMP10004");
+//			employeeService.EMPLOYEEDELETE("EMP10001");
 			
 		} catch (Exception e) {
 			//TODO

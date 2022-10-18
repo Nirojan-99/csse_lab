@@ -52,11 +52,11 @@ public class EmployeeService {
 
 		try {
 
-			int employeeCount = UtilTransform.XMLXPATHS().size();
+			int employeeCount = UtilTransform.xmlPaths().size();
 
 			for (int i = 0; i < employeeCount; i++) {
 
-				Map<String, String> singleEmployee = UtilTransform.XMLXPATHS().get(i);
+				Map<String, String> singleEmployee = UtilTransform.xmlPaths().get(i);
 
 				Employee employee = new Employee();
 
