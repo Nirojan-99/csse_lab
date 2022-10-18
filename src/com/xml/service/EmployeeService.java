@@ -1,22 +1,22 @@
 package com.xml.service;
 
-import org.xml.sax.SAXException;
 import com.xml.model.Employee;
 import com.xml.util.UtilQuery;
 import com.xml.util.UtilTransform;
+import java.io.IOException;
 import java.sql.Connection;
-import java.util.logging.Logger;
 import java.sql.DriverManager;
-import javax.xml.parsers.ParserConfigurationException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
 import java.sql.Statement;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.Map;
 import java.util.Properties;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 
 public class EmployeeService {
 
@@ -28,6 +28,8 @@ public class EmployeeService {
 
 	private PreparedStatement preparedStatement;
 
+	private static final Logger log = Logger.getLogger(EmployeeService.class.getName());
+
 	private static final String XML_EMP_ID = "XpathEmployeeIDKey";
 	private static final String XML_EMP_NAME = "XpathEmployeeNameKey";
 	private static final String XML_EMP_ADDRESS = "XpathEmployeeAddressKey";
@@ -35,16 +37,27 @@ public class EmployeeService {
 	private static final String XML_EMP_DETP = "XpathDepartmentKey";
 	private static final String XML_EMP_DESIGNATION = "XpathDesignationKey";
 
+	private static EmployeeService instance = new EmployeeService();
+
+	private EmployeeService() {
+	}
+
+	public static EmployeeService getInstance() {
+		return instance;
+	}
+
 	public void getEmpService() {
 
-		Properties properties = new Properties(); 
+		Properties properties = new Properties();
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			connection = DriverManager.getConnection(properties.getProperty("url"), properties.getProperty("username"),
 					properties.getProperty("password"));
-		} catch (ClassNotFoundException | SQLException exception) {
-			// TODO
+		} catch (ClassNotFoundException exception) {
+			log.log(Level.SEVERE, exception.getMessage());
+		} catch (SQLException exception) {
+			log.log(Level.SEVERE, exception.getMessage());
 		}
 	}
 
@@ -72,8 +85,8 @@ public class EmployeeService {
 				System.out.println(employee.toString() + "\n");
 
 			}
-		} catch (Exception e) {
-			// TODO
+		} catch (Exception exception) {
+			log.log(Level.SEVERE, exception.getMessage());
 		}
 	}
 
@@ -84,20 +97,19 @@ public class EmployeeService {
 
 			try {
 				statement.executeUpdate(UtilQuery.Query("q2"));
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception exception) {
+				log.log(Level.SEVERE, exception.getMessage());
 			}
 			statement.executeUpdate(UtilQuery.Query("q1"));
 
 		} catch (SQLException exception) {
-			// TODO
-		} catch (SAXException e) {
-			// TODO
-		} catch (IOException e) {
-			// TODO
-		} catch (ParserConfigurationException e) {
-			// TODO
+			log.log(Level.SEVERE, exception.getMessage());
+		} catch (SAXException exception) {
+			log.log(Level.SEVERE, exception.getMessage());
+		} catch (IOException exception) {
+			log.log(Level.SEVERE, exception.getMessage());
+		} catch (ParserConfigurationException exception) {
+			log.log(Level.SEVERE, exception.getMessage());
 		}
 
 	}
@@ -126,8 +138,14 @@ public class EmployeeService {
 			preparedStatement.executeBatch();
 			connection.commit();
 
-		} catch (SQLException | SAXException | IOException | ParserConfigurationException exception) {
-			// TODO
+		} catch (SQLException exception) {
+			log.log(Level.SEVERE, exception.getMessage());
+		} catch (SAXException exception) {
+			log.log(Level.SEVERE, exception.getMessage());
+		} catch (IOException exception) {
+			log.log(Level.SEVERE, exception.getMessage());
+		} catch (ParserConfigurationException exception) {
+			log.log(Level.SEVERE, exception.getMessage());
 		}
 	}
 
@@ -155,8 +173,14 @@ public class EmployeeService {
 
 			outputEmployee(employeeList);
 
-		} catch (SQLException | SAXException | IOException | ParserConfigurationException exception) {
-			// TODO
+		} catch (SQLException exception) {
+			log.log(Level.SEVERE, exception.getMessage());
+		} catch (SAXException exception) {
+			log.log(Level.SEVERE, exception.getMessage());
+		} catch (ParserConfigurationException exception) {
+			log.log(Level.SEVERE, exception.getMessage());
+		} catch (IOException exception) {
+			log.log(Level.SEVERE, exception.getMessage());
 		}
 	}
 
@@ -168,8 +192,14 @@ public class EmployeeService {
 			preparedStatement.setString(1, eid);
 			preparedStatement.executeUpdate();
 
-		} catch (SQLException | SAXException | IOException | ParserConfigurationException exception) {
-			// TODO
+		} catch (SQLException exception) {
+			log.log(Level.SEVERE, exception.getMessage());
+		} catch (SAXException exception) {
+			log.log(Level.SEVERE, exception.getMessage());
+		} catch (IOException exception) {
+			log.log(Level.SEVERE, exception.getMessage());
+		} catch (ParserConfigurationException exception) {
+			log.log(Level.SEVERE, exception.getMessage());
 		}
 	}
 
@@ -194,8 +224,14 @@ public class EmployeeService {
 
 				employeeList.add(employee);
 			}
-		} catch (SQLException | SAXException | IOException | ParserConfigurationException exception) {
-			// TODO
+		} catch (SQLException exception) {
+			log.log(Level.SEVERE, exception.getMessage());
+		} catch (SAXException exception) {
+			log.log(Level.SEVERE, exception.getMessage());
+		} catch (IOException exception) {
+			log.log(Level.SEVERE, exception.getMessage());
+		} catch (ParserConfigurationException exception) {
+			log.log(Level.SEVERE, exception.getMessage());
 		}
 
 		outputEmployee(employeeList);
@@ -216,5 +252,15 @@ public class EmployeeService {
 					"----------------------------------------------------------------------------------------------------------------");
 		}
 
+	}
+
+	/*
+	 * Template method to get employee from XML and store it in database and display
+	 */
+	public void retriveEmployee() {
+		this.employeeFromXML();
+		this.employeeTableCreate();
+		this.addEmployees();
+		this.displayEmployee();
 	}
 }
