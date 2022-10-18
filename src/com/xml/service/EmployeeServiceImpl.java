@@ -1,8 +1,11 @@
 package com.xml.service;
 
+import com.xml.common.CommonConstants;
+import com.xml.common.ConfigUtil;
+import com.xml.common.DBConnectionUtil;
+import com.xml.common.QueryUtil;
+import com.xml.common.XSLTransformUtil;
 import com.xml.model.Employee;
-import com.xml.util.UtilQuery;
-import com.xml.util.UtilTransform;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,7 +21,7 @@ import java.util.Properties;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
-public class EmployeeService {
+public class EmployeeServiceImpl extends AbstractService {
 
 	private final ArrayList<Employee> employeeList = new ArrayList<Employee>();
 
@@ -28,57 +31,47 @@ public class EmployeeService {
 
 	private PreparedStatement preparedStatement;
 
-	private static final Logger log = Logger.getLogger(EmployeeService.class.getName());
+	private static final Logger log = Logger.getLogger(EmployeeServiceImpl.class.getName());
 
-	private static final String XML_EMP_ID = "XpathEmployeeIDKey";
-	private static final String XML_EMP_NAME = "XpathEmployeeNameKey";
-	private static final String XML_EMP_ADDRESS = "XpathEmployeeAddressKey";
-	private static final String XML_EMP_FACULTY = "XpathFacultyNameKey";
-	private static final String XML_EMP_DETP = "XpathDepartmentKey";
-	private static final String XML_EMP_DESIGNATION = "XpathDesignationKey";
+	private static EmployeeServiceImpl instance = new EmployeeServiceImpl();
 
-	private static EmployeeService instance = new EmployeeService();
+	private EmployeeServiceImpl() {
 
-	private EmployeeService() {
 	}
 
-	public static EmployeeService getInstance() {
+	public static EmployeeServiceImpl getInstance() {
 		return instance;
 	}
 
 	public void getEmpService() {
-
-		Properties properties = new Properties();
-
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection(properties.getProperty("url"), properties.getProperty("username"),
-					properties.getProperty("password"));
+			DBConnectionUtil.connectDB(connection);
 		} catch (ClassNotFoundException exception) {
 			log.log(Level.SEVERE, exception.getMessage());
 		} catch (SQLException exception) {
 			log.log(Level.SEVERE, exception.getMessage());
 		}
+
 	}
 
 	public void employeeFromXML() {
 
 		try {
 
-			int employeeCount = UtilTransform.xmlPaths().size();
+			int employeeCount = XSLTransformUtil.xmlPaths().size();
 
 			for (int i = 0; i < employeeCount; i++) {
 
-				Map<String, String> singleEmployee = UtilTransform.xmlPaths().get(i);
+				Map<String, String> singleEmployee = XSLTransformUtil.xmlPaths().get(i);
 
 				Employee employee = new Employee();
 
-				employee.setEmployeeID(singleEmployee.get(XML_EMP_ID));
-				employee.setFullName(singleEmployee.get(XML_EMP_NAME));
-				employee.setAddress(singleEmployee.get(XML_EMP_ADDRESS));
-				employee.setFacultyName(singleEmployee.get(XML_EMP_FACULTY));
-				employee.setDepartment(singleEmployee.get(XML_EMP_DETP));
-				employee.setDesignation(singleEmployee.get(XML_EMP_DESIGNATION));
+				employee.setEmployeeID(singleEmployee.get(CommonConstants.XML_EMP_ID));
+				employee.setFullName(singleEmployee.get(CommonConstants.XML_EMP_NAME));
+				employee.setAddress(singleEmployee.get(CommonConstants.XML_EMP_ADDRESS));
+				employee.setFacultyName(singleEmployee.get(CommonConstants.XML_EMP_FACULTY));
+				employee.setDepartment(singleEmployee.get(CommonConstants.XML_EMP_DETP));
+				employee.setDesignation(singleEmployee.get(CommonConstants.XML_EMP_DESIGNATION));
 
 				employeeList.add(employee);
 
@@ -96,11 +89,11 @@ public class EmployeeService {
 			statement = connection.createStatement();
 
 			try {
-				statement.executeUpdate(UtilQuery.Query("q2"));
+				statement.executeUpdate(QueryUtil.Query(CommonConstants.QUERY_TWO));
 			} catch (Exception exception) {
 				log.log(Level.SEVERE, exception.getMessage());
 			}
-			statement.executeUpdate(UtilQuery.Query("q1"));
+			statement.executeUpdate(QueryUtil.Query(CommonConstants.QUERY_ONE));
 
 		} catch (SQLException exception) {
 			log.log(Level.SEVERE, exception.getMessage());
@@ -117,19 +110,19 @@ public class EmployeeService {
 	public void addEmployees() {
 
 		try {
-			preparedStatement = connection.prepareStatement(UtilQuery.Query("q3"));
+			preparedStatement = connection.prepareStatement(QueryUtil.Query(CommonConstants.QUERY_THREE));
 
 			connection.setAutoCommit(false);
 
 			for (int i = 0; i < employeeList.size(); i++) {
 
 				Employee employee = employeeList.get(i);
-				preparedStatement.setString(1, employee.getEmployeeID());
-				preparedStatement.setString(2, employee.getFullName());
-				preparedStatement.setString(3, employee.getAddress());
-				preparedStatement.setString(4, employee.getFacultyName());
-				preparedStatement.setString(5, employee.getDepartment());
-				preparedStatement.setString(6, employee.getDesignation());
+				preparedStatement.setString(CommonConstants.COLUMN_INDEX_ONE, employee.getEmployeeID());
+				preparedStatement.setString(CommonConstants.COLUMN_INDEX_TWO, employee.getFullName());
+				preparedStatement.setString(CommonConstants.COLUMN_INDEX_THREE, employee.getAddress());
+				preparedStatement.setString(CommonConstants.COLUMN_INDEX_FOUR, employee.getFacultyName());
+				preparedStatement.setString(CommonConstants.COLUMN_INDEX_FIVE, employee.getDepartment());
+				preparedStatement.setString(CommonConstants.COLUMN_INDEX_SIX, employee.getDesignation());
 
 				preparedStatement.addBatch();
 
@@ -155,17 +148,17 @@ public class EmployeeService {
 
 		try {
 
-			preparedStatement = connection.prepareStatement(UtilQuery.Query("q4"));
-			preparedStatement.setString(1, eid);
+			preparedStatement = connection.prepareStatement(QueryUtil.Query(CommonConstants.QUERY_FOUR));
+			preparedStatement.setString(CommonConstants.COLUMN_INDEX_ONE, eid);
 			ResultSet resultSet = preparedStatement.executeQuery();
 
 			while (resultSet.next()) {
-				employee.setEmployeeID(resultSet.getString(1));
-				employee.setFullName(resultSet.getString(2));
-				employee.setAddress(resultSet.getString(3));
-				employee.setFacultyName(resultSet.getString(4));
-				employee.setDepartment(resultSet.getString(5));
-				employee.setDesignation(resultSet.getString(6));
+				employee.setEmployeeID(resultSet.getString(CommonConstants.COLUMN_INDEX_ONE));
+				employee.setFullName(resultSet.getString(CommonConstants.COLUMN_INDEX_TWO));
+				employee.setAddress(resultSet.getString(CommonConstants.COLUMN_INDEX_THREE));
+				employee.setFacultyName(resultSet.getString(CommonConstants.COLUMN_INDEX_FOUR));
+				employee.setDepartment(resultSet.getString(CommonConstants.COLUMN_INDEX_FIVE));
+				employee.setDesignation(resultSet.getString(CommonConstants.COLUMN_INDEX_SIX));
 			}
 
 			ArrayList<Employee> employeeList = new ArrayList<Employee>();
@@ -188,8 +181,8 @@ public class EmployeeService {
 
 		try {
 
-			preparedStatement = connection.prepareStatement(UtilQuery.Query("q6"));
-			preparedStatement.setString(1, eid);
+			preparedStatement = connection.prepareStatement(QueryUtil.Query(CommonConstants.QUERY_SIX));
+			preparedStatement.setString(CommonConstants.COLUMN_INDEX_ONE, eid);
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException exception) {
@@ -208,19 +201,19 @@ public class EmployeeService {
 		ArrayList<Employee> employeeList = new ArrayList<Employee>();
 
 		try {
-			preparedStatement = connection.prepareStatement(UtilQuery.Query("q5"));
+			preparedStatement = connection.prepareStatement(QueryUtil.Query(CommonConstants.QUERY_FIVE));
 			ResultSet resultSet = preparedStatement.executeQuery();
 
 			while (resultSet.next()) {
 
 				Employee employee = new Employee();
 
-				employee.setEmployeeID(resultSet.getString(1));
-				employee.setFullName(resultSet.getString(2));
-				employee.setAddress(resultSet.getString(3));
-				employee.setFacultyName(resultSet.getString(4));
-				employee.setDepartment(resultSet.getString(5));
-				employee.setDesignation(resultSet.getString(6));
+				employee.setEmployeeID(resultSet.getString(CommonConstants.COLUMN_INDEX_ONE));
+				employee.setFullName(resultSet.getString(CommonConstants.COLUMN_INDEX_TWO));
+				employee.setAddress(resultSet.getString(CommonConstants.COLUMN_INDEX_THREE));
+				employee.setFacultyName(resultSet.getString(CommonConstants.COLUMN_INDEX_FOUR));
+				employee.setDepartment(resultSet.getString(CommonConstants.COLUMN_INDEX_FIVE));
+				employee.setDesignation(resultSet.getString(CommonConstants.COLUMN_INDEX_SIX));
 
 				employeeList.add(employee);
 			}
@@ -254,13 +247,4 @@ public class EmployeeService {
 
 	}
 
-	/*
-	 * Template method to get employee from XML and store it in database and display
-	 */
-	public void retriveEmployee() {
-		this.employeeFromXML();
-		this.employeeTableCreate();
-		this.addEmployees();
-		this.displayEmployee();
-	}
 }

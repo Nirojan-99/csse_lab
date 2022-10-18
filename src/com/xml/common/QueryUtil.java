@@ -1,4 +1,4 @@
-package com.xml.util;
+package com.xml.common;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,10 +11,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class UtilQuery extends UtilConfig {
-
-	private static final String QUERY_TAG = "query";
-	private static final String ATTRIBUTE_ID = "id";
+public class QueryUtil extends ConfigUtil {
 
 	public static String Query(String id) throws SAXException, IOException, ParserConfigurationException {
 
@@ -22,12 +19,13 @@ public class UtilQuery extends UtilConfig {
 		Element element = null;
 
 		nodeList = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-				.parse(new File(UtilQuery.properties.getProperty("QUERY_FILE"))).getElementsByTagName(QUERY_TAG);
+				.parse(new File(QueryUtil.properties.getProperty(CommonConstants.QUERY_FILE_PATH)))
+				.getElementsByTagName(CommonConstants.QUERY_TAG);
 
 		for (int x = 0; x < nodeList.getLength(); x++) {
 
 			element = (Element) nodeList.item(x);
-			if (element.getAttribute(ATTRIBUTE_ID).equals(id))
+			if (element.getAttribute(CommonConstants.ATTRIBUTE_ID).equals(id))
 				break;
 
 		}

@@ -2,8 +2,10 @@ package com.xml.main;
 
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
-import com.xml.service.EmployeeService;
-import com.xml.util.UtilTransform;
+
+import com.xml.common.XSLTransformUtil;
+import com.xml.service.EmployeeServiceImpl;
+
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
@@ -23,11 +25,11 @@ public class ExecuteMain {
 
 	public static void main(String[] args) {
 
-		EmployeeService employeeService = EmployeeService.getInstance();
+		EmployeeServiceImpl employeeService = EmployeeServiceImpl.getInstance();
 
 		try {
 
-			UtilTransform.requestTransform();
+			XSLTransformUtil.requestTransform();
 
 			employeeService.retriveEmployee();
 
