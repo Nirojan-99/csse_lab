@@ -17,7 +17,7 @@ public class UtilQuery extends UtilConfig {
 	private static final String QUERY_TAG = "query";
 	private static final String ATTRIBUTE_ID = "id";
 
-	public static String Q(String id) throws SAXException, IOException, ParserConfigurationException {
+	public static String Query(String id) throws SAXException, IOException, ParserConfigurationException {
 
 		NodeList nodeList;
 		Element element = null;

@@ -1,21 +1,14 @@
 package com.xml.service;
 
 import org.xml.sax.SAXException;
-
 import com.xml.model.Employee;
-import com.xml.util.UtilConfig;
 import com.xml.util.UtilQuery;
 import com.xml.util.UtilTransform;
-import com.xml.util.UtilQuery;
-import com.xml.util.UtilTransform;
-
 import java.sql.Connection;
 import java.util.logging.Logger;
 import java.sql.DriverManager;
 import javax.xml.parsers.ParserConfigurationException;
 import java.sql.PreparedStatement;
-import javax.xml.xpath.XPathExpressionException;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -35,15 +28,22 @@ public class EmployeeService {
 
 	private PreparedStatement preparedStatement;
 
+	private static final String XML_EMP_ID = "XpathEmployeeIDKey";
+	private static final String XML_EMP_NAME = "XpathEmployeeNameKey";
+	private static final String XML_EMP_ADDRESS = "XpathEmployeeAddressKey";
+	private static final String XML_EMP_FACULTY = "XpathFacultyNameKey";
+	private static final String XML_EMP_DETP = "XpathDepartmentKey";
+	private static final String XML_EMP_DESIGNATION = "XpathDesignationKey";
+
 	public void getEmpService() {
 
-		Properties properties = new Properties();
+		Properties properties = new Properties(); 
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			connection = DriverManager.getConnection(properties.getProperty("url"), properties.getProperty("username"),
 					properties.getProperty("password"));
-		} catch (Exception e) {
+		} catch (ClassNotFoundException | SQLException exception) {
 			// TODO
 		}
 	}
@@ -60,12 +60,12 @@ public class EmployeeService {
 
 				Employee employee = new Employee();
 
-				employee.setEmployeeID(singleEmployee.get("XpathEmployeeIDKey"));
-				employee.setFullName(singleEmployee.get("XpathEmployeeNameKey"));
-				employee.setAddress(singleEmployee.get("XpathEmployeeAddressKey"));
-				employee.setFacultyName(singleEmployee.get("XpathFacultyNameKey"));
-				employee.setDepartment(singleEmployee.get("XpathDepartmentKey"));
-				employee.setDesignation(singleEmployee.get("XpathDesignationKey"));
+				employee.setEmployeeID(singleEmployee.get(XML_EMP_ID));
+				employee.setFullName(singleEmployee.get(XML_EMP_NAME));
+				employee.setAddress(singleEmployee.get(XML_EMP_ADDRESS));
+				employee.setFacultyName(singleEmployee.get(XML_EMP_FACULTY));
+				employee.setDepartment(singleEmployee.get(XML_EMP_DETP));
+				employee.setDesignation(singleEmployee.get(XML_EMP_DESIGNATION));
 
 				employeeList.add(employee);
 
@@ -83,12 +83,12 @@ public class EmployeeService {
 			statement = connection.createStatement();
 
 			try {
-				statement.executeUpdate(UtilQuery.Q("q2"));
+				statement.executeUpdate(UtilQuery.Query("q2"));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			statement.executeUpdate(UtilQuery.Q("q1"));
+			statement.executeUpdate(UtilQuery.Query("q1"));
 
 		} catch (SQLException exception) {
 			// TODO
@@ -105,7 +105,7 @@ public class EmployeeService {
 	public void addEmployees() {
 
 		try {
-			preparedStatement = connection.prepareStatement(UtilQuery.Q("q3"));
+			preparedStatement = connection.prepareStatement(UtilQuery.Query("q3"));
 
 			connection.setAutoCommit(false);
 
@@ -137,7 +137,7 @@ public class EmployeeService {
 
 		try {
 
-			preparedStatement = connection.prepareStatement(UtilQuery.Q("q4"));
+			preparedStatement = connection.prepareStatement(UtilQuery.Query("q4"));
 			preparedStatement.setString(1, eid);
 			ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -164,12 +164,11 @@ public class EmployeeService {
 
 		try {
 
-			preparedStatement = connection.prepareStatement(UtilQuery.Q("q6"));
+			preparedStatement = connection.prepareStatement(UtilQuery.Query("q6"));
 			preparedStatement.setString(1, eid);
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException | SAXException | IOException | ParserConfigurationException exception) {
-//			e.printStackTrace();
 			// TODO
 		}
 	}
@@ -179,7 +178,7 @@ public class EmployeeService {
 		ArrayList<Employee> employeeList = new ArrayList<Employee>();
 
 		try {
-			preparedStatement = connection.prepareStatement(UtilQuery.Q("q5"));
+			preparedStatement = connection.prepareStatement(UtilQuery.Query("q5"));
 			ResultSet resultSet = preparedStatement.executeQuery();
 
 			while (resultSet.next()) {
