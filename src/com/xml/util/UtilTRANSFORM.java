@@ -25,9 +25,9 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 
-public class UtilTRANSFORM extends UtilC {
+public class UtilTransform extends UtilConfig {
 
-	private static final ArrayList<Map<String, String>> l = new ArrayList<Map<String, String>>();
+	private static final ArrayList<Map<String, String>> list = new ArrayList<Map<String, String>>();
 
 	private static Map<String, String> m = null;
 
@@ -60,8 +60,8 @@ public class UtilTRANSFORM extends UtilC {
 					.evaluate(d, XPathConstants.STRING));
 			m.put("XpathDesignationKey", (String) x.compile("//Employees/Employee[" + i + "]/Designation/text()")
 					.evaluate(d, XPathConstants.STRING));
-			l.add(m);
+			list.add(m);
 		}
-		return l;
+		return list;
 	}
 }

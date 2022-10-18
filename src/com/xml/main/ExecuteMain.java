@@ -5,7 +5,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 
 import com.xml.service.EmployeeService;
-import com.xml.util.UtilTRANSFORM;
+import com.xml.util.UtilTransform;
 
 public class ExecuteMain {
 
@@ -18,7 +18,7 @@ public class ExecuteMain {
 		
 		try {
 			
-			UtilTRANSFORM.rEQUESTtRANSFORM();
+			UtilTransform.rEQUESTtRANSFORM();
 			employeeService.employeeFromXML();
 			employeeService.employeeTableCreate();
 			employeeService.addEmployees();

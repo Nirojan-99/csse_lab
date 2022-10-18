@@ -3,11 +3,11 @@ package com.xml.service;
 import org.xml.sax.SAXException;
 
 import com.xml.model.Employee;
-import com.xml.util.UtilC;
-import com.xml.util.UtilQ;
-import com.xml.util.UtilTRANSFORM;
-import com.xml.util.UtilQ;
-import com.xml.util.UtilTRANSFORM;
+import com.xml.util.UtilConfig;
+import com.xml.util.UtilQuery;
+import com.xml.util.UtilTransform;
+import com.xml.util.UtilQuery;
+import com.xml.util.UtilTransform;
 
 import java.sql.Connection;
 import java.util.logging.Logger;
@@ -52,11 +52,11 @@ public class EmployeeService {
 
 		try {
 
-			int employeeCount = UtilTRANSFORM.XMLXPATHS().size();
+			int employeeCount = UtilTransform.XMLXPATHS().size();
 
 			for (int i = 0; i < employeeCount; i++) {
 
-				Map<String, String> singleEmployee = UtilTRANSFORM.XMLXPATHS().get(i);
+				Map<String, String> singleEmployee = UtilTransform.XMLXPATHS().get(i);
 
 				Employee employee = new Employee();
 
@@ -83,12 +83,12 @@ public class EmployeeService {
 			statement = connection.createStatement();
 
 			try {
-				statement.executeUpdate(UtilQ.Q("q2"));
+				statement.executeUpdate(UtilQuery.Q("q2"));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			statement.executeUpdate(UtilQ.Q("q1"));
+			statement.executeUpdate(UtilQuery.Q("q1"));
 
 		} catch (SQLException exception) {
 			// TODO
@@ -105,7 +105,7 @@ public class EmployeeService {
 	public void addEmployees() {
 
 		try {
-			preparedStatement = connection.prepareStatement(UtilQ.Q("q3"));
+			preparedStatement = connection.prepareStatement(UtilQuery.Q("q3"));
 
 			connection.setAutoCommit(false);
 
@@ -137,7 +137,7 @@ public class EmployeeService {
 
 		try {
 
-			preparedStatement = connection.prepareStatement(UtilQ.Q("q4"));
+			preparedStatement = connection.prepareStatement(UtilQuery.Q("q4"));
 			preparedStatement.setString(1, eid);
 			ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -164,7 +164,7 @@ public class EmployeeService {
 
 		try {
 
-			preparedStatement = connection.prepareStatement(UtilQ.Q("q6"));
+			preparedStatement = connection.prepareStatement(UtilQuery.Q("q6"));
 			preparedStatement.setString(1, eid);
 			preparedStatement.executeUpdate();
 
@@ -179,7 +179,7 @@ public class EmployeeService {
 		ArrayList<Employee> employeeList = new ArrayList<Employee>();
 
 		try {
-			preparedStatement = connection.prepareStatement(UtilQ.Q("q5"));
+			preparedStatement = connection.prepareStatement(UtilQuery.Q("q5"));
 			ResultSet resultSet = preparedStatement.executeQuery();
 
 			while (resultSet.next()) {

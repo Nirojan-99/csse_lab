@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 
-public class UtilC {
+public class UtilConfig {
 
 	public static final Properties properties = new Properties();
 
@@ -14,7 +14,7 @@ public class UtilC {
 		
 		try {
 			
-			properties.load(UtilQ.class.getResourceAsStream("../config/config.properties"));
+			properties.load(UtilQuery.class.getResourceAsStream("../config/config.properties"));
 			
 		} catch (IOException e) {
 			//TODO
