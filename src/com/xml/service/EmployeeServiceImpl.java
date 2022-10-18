@@ -46,6 +46,8 @@ public class EmployeeServiceImpl extends AbstractService {
 	public void getEmpService() {
 		try {
 			connection = DBConnectionUtil.connectDB();
+			
+			
 		} catch (ClassNotFoundException exception) {
 			log.log(Level.SEVERE, exception.getMessage());
 		} catch (SQLException exception) {
@@ -118,9 +120,8 @@ public class EmployeeServiceImpl extends AbstractService {
 
 			connection.setAutoCommit(false);
 
-			for (int i = 0; i < employeeList.size(); i++) {
+			for (Employee employee : employeeList) {
 
-				Employee employee = employeeList.get(i);
 				preparedStatement.setString(CommonConstants.COLUMN_INDEX_ONE, employee.getEmployeeID());
 				preparedStatement.setString(CommonConstants.COLUMN_INDEX_TWO, employee.getFullName());
 				preparedStatement.setString(CommonConstants.COLUMN_INDEX_THREE, employee.getAddress());

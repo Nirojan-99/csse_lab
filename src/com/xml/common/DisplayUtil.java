@@ -10,11 +10,10 @@ public class DisplayUtil {
 				+ "Department" + "\t\t" + "Designation" + "\n");
 		System.out.println(
 				"================================================================================================================");
-		for (int i = 0; i < employeeList.size(); i++) {
+		for (Employee employee:employeeList) {
 
-			Employee e = employeeList.get(i);
-			System.out.println(e.getEmployeeID() + "\t" + e.getFullName() + "\t\t" + e.getAddress() + "\t"
-					+ e.getFacultyName() + "\t" + e.getDepartment() + "\t" + e.getDesignation() + "\n");
+			System.out.println(employee.getEmployeeID() + "\t" + employee.getFullName() + "\t\t" + employee.getAddress() + "\t"
+					+ employee.getFacultyName() + "\t" + employee.getDepartment() + "\t" + employee.getDesignation() + "\n");
 			System.out.println(
 					"----------------------------------------------------------------------------------------------------------------");
 		}
