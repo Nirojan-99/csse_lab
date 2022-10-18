@@ -55,19 +55,19 @@ public class XSLTransformUtil extends ConfigUtil {
 			
 			xpathOutputMap = new HashMap<String, String>();
 			
-			xpathOutputMap.put(CommonConstants.XML_EMP_ID, (String) x.compile("//Employees/Employee[" + i + "]/EmployeeID/text()")
+			xpathOutputMap.put(CommonConstants.XPATH_EMP_ID_KEY, (String) x.compile("//Employees/Employee[" + i + "]/EmployeeID/text()")
 					.evaluate(d, XPathConstants.STRING));
-			xpathOutputMap.put(CommonConstants.XML_EMP_NAME,
+			xpathOutputMap.put(CommonConstants.XPATH_EMP_NAME_KEY,
 					(String) x.compile("//Employees/Employee[" + i + "]/EmployeeFullName/text()").evaluate(d,
 							XPathConstants.STRING));
-			xpathOutputMap.put(CommonConstants.XML_EMP_ADDRESS,
+			xpathOutputMap.put(CommonConstants.XPATH_EMP_ADDRESS_KEY,
 					(String) x.compile("//Employees/Employee[" + i + "]/EmployeeFullAddress/text()").evaluate(d,
 							XPathConstants.STRING));
-			xpathOutputMap.put(CommonConstants.XML_EMP_FACULTY, (String) x
+			xpathOutputMap.put(CommonConstants.XPATH_EMP_FACULTY_KEY, (String) x
 					.compile("//Employees/Employee[" + i + "]/FacultyName/text()").evaluate(d, XPathConstants.STRING));
-			xpathOutputMap.put(CommonConstants.XML_EMP_DETP, (String) x
+			xpathOutputMap.put(CommonConstants.XPATH_EMP_DETP_KEY, (String) x
 					.compile("//Employees/Employee[" + i + "]/Department/text()").evaluate(d, XPathConstants.STRING));
-			xpathOutputMap.put(CommonConstants.XML_EMP_DESIGNATION, (String) x
+			xpathOutputMap.put(CommonConstants.XPATH_EMP_DESIGNATION_KEY, (String) x
 					.compile("//Employees/Employee[" + i + "]/Designation/text()").evaluate(d, XPathConstants.STRING));
 			list.add(xpathOutputMap);
 		}

@@ -6,17 +6,17 @@ package com.xml.common;
 
 public class CommonConstants {
 
-	public static final String XML_EMP_ID = "XpathEmployeeIDKey";
+	public static final String XPATH_EMP_ID_KEY = "XpathEmployeeIDKey";
 
-	public static final String XML_EMP_NAME = "XpathEmployeeNameKey";
+	public static final String XPATH_EMP_NAME_KEY = "XpathEmployeeNameKey";
 
-	public static final String XML_EMP_ADDRESS = "XpathEmployeeAddressKey";
+	public static final String XPATH_EMP_ADDRESS_KEY = "XpathEmployeeAddressKey";
 
-	public static final String XML_EMP_FACULTY = "XpathFacultyNameKey";
+	public static final String XPATH_EMP_FACULTY_KEY = "XpathFacultyNameKey";
 
-	public static final String XML_EMP_DETP = "XpathDepartmentKey";
+	public static final String XPATH_EMP_DETP_KEY = "XpathDepartmentKey";
 
-	public static final String XML_EMP_DESIGNATION = "XpathDesignationKey";
+	public static final String XPATH_EMP_DESIGNATION_KEY = "XpathDesignationKey";
 
 	public static final String PROPERTY_FILE = "../config/config.properties";
 

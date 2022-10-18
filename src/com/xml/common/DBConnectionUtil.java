@@ -7,11 +7,11 @@ import java.util.Properties;
 
 public class DBConnectionUtil {
 
-	public static void connectDB(Connection connection) throws ClassNotFoundException, SQLException {
+	public static Connection connectDB() throws ClassNotFoundException, SQLException {
 		Properties properties = new Properties();
 
 		Class.forName(ConfigUtil.properties.getProperty(CommonConstants.DRIVER_NAME));
-		connection = DriverManager.getConnection(properties.getProperty(CommonConstants.URL),
+		return DriverManager.getConnection(properties.getProperty(CommonConstants.URL),
 				properties.getProperty(CommonConstants.USERNAME), properties.getProperty(CommonConstants.PASSWORD));
 
 	}

@@ -17,6 +17,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
+
 import org.xml.sax.SAXException;
 
 public class EmployeeServiceImpl extends AbstractService {
@@ -30,7 +32,7 @@ public class EmployeeServiceImpl extends AbstractService {
 	private static final Logger log = Logger.getLogger(EmployeeServiceImpl.class.getName());
 
 	private static EmployeeServiceImpl instance = new EmployeeServiceImpl();
-	
+
 	private PreparedStatement preparedStatement;
 
 	private EmployeeServiceImpl() {
@@ -43,7 +45,7 @@ public class EmployeeServiceImpl extends AbstractService {
 
 	public void getEmpService() {
 		try {
-			DBConnectionUtil.connectDB(connection);
+			connection = DBConnectionUtil.connectDB();
 		} catch (ClassNotFoundException exception) {
 			log.log(Level.SEVERE, exception.getMessage());
 		} catch (SQLException exception) {
@@ -52,31 +54,35 @@ public class EmployeeServiceImpl extends AbstractService {
 
 	}
 
-	public void employeeFromXML() {
+	public void loadEmployeeFromXML() {
 
 		try {
 
-			int employeeCount = XSLTransformUtil.xmlPaths().size();
-
-			for (int i = 0; i < employeeCount; i++) {
-
-				Map<String, String> singleEmployee = XSLTransformUtil.xmlPaths().get(i);
+			for (Map<String, String> employeeOutputMap : XSLTransformUtil.xmlPaths()) {
 
 				Employee employee = new Employee();
 
-				employee.setEmployeeID(singleEmployee.get(CommonConstants.XML_EMP_ID));
-				employee.setFullName(singleEmployee.get(CommonConstants.XML_EMP_NAME));
-				employee.setAddress(singleEmployee.get(CommonConstants.XML_EMP_ADDRESS));
-				employee.setFacultyName(singleEmployee.get(CommonConstants.XML_EMP_FACULTY));
-				employee.setDepartment(singleEmployee.get(CommonConstants.XML_EMP_DETP));
-				employee.setDesignation(singleEmployee.get(CommonConstants.XML_EMP_DESIGNATION));
+				employee.setEmployeeID(employeeOutputMap.get(CommonConstants.XPATH_EMP_ID_KEY));
+				employee.setFullName(employeeOutputMap.get(CommonConstants.XPATH_EMP_NAME_KEY));
+				employee.setAddress(employeeOutputMap.get(CommonConstants.XPATH_EMP_ADDRESS_KEY));
+				employee.setFacultyName(employeeOutputMap.get(CommonConstants.XPATH_EMP_FACULTY_KEY));
+				employee.setDepartment(employeeOutputMap.get(CommonConstants.XPATH_EMP_DETP_KEY));
+				employee.setDesignation(employeeOutputMap.get(CommonConstants.XPATH_EMP_DESIGNATION_KEY));
 
 				employeeList.add(employee);
 
-				System.out.println(employee.toString() + "\n");
+				log.info(employee.toString() + "\n");
 
 			}
-		} catch (Exception exception) {
+		} catch (NumberFormatException exception) {
+			log.log(Level.SEVERE, exception.getMessage());
+		} catch (XPathExpressionException exception) {
+			log.log(Level.SEVERE, exception.getMessage());
+		} catch (SAXException exception) {
+			log.log(Level.SEVERE, exception.getMessage());
+		} catch (IOException exception) {
+			log.log(Level.SEVERE, exception.getMessage());
+		} catch (ParserConfigurationException exception) {
 			log.log(Level.SEVERE, exception.getMessage());
 		}
 	}
@@ -137,6 +143,17 @@ public class EmployeeServiceImpl extends AbstractService {
 			log.log(Level.SEVERE, exception.getMessage());
 		} catch (ParserConfigurationException exception) {
 			log.log(Level.SEVERE, exception.getMessage());
+		} finally {
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				log.log(Level.SEVERE, e.getMessage());
+			}
 		}
 	}
 
@@ -172,6 +189,17 @@ public class EmployeeServiceImpl extends AbstractService {
 			log.log(Level.SEVERE, exception.getMessage());
 		} catch (IOException exception) {
 			log.log(Level.SEVERE, exception.getMessage());
+		} finally {
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				log.log(Level.SEVERE, e.getMessage());
+			}
 		}
 	}
 
@@ -191,6 +219,17 @@ public class EmployeeServiceImpl extends AbstractService {
 			log.log(Level.SEVERE, exception.getMessage());
 		} catch (ParserConfigurationException exception) {
 			log.log(Level.SEVERE, exception.getMessage());
+		} finally {
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				log.log(Level.SEVERE, e.getMessage());
+			}
 		}
 	}
 
