@@ -21,6 +21,13 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.xml.sax.SAXException;
 
+/*
+* EmployeeServiceImpl class
+* This class for implement  GET EmpService, CREATE employee table, ADD employee, GET employee, DELETE employee methods
+* 
+*
+*/
+
 public class EmployeeServiceImpl extends AbstractService {
 
 	private final ArrayList<Employee> employeeList = new ArrayList<Employee>();
@@ -29,7 +36,7 @@ public class EmployeeServiceImpl extends AbstractService {
 
 	private static Statement statement;
 
-	private static final Logger log = Logger.getLogger(EmployeeServiceImpl.class.getName());
+	private final Logger log = Logger.getLogger(EmployeeServiceImpl.class.getName());
 
 	private static EmployeeServiceImpl instance = new EmployeeServiceImpl();
 
@@ -39,15 +46,29 @@ public class EmployeeServiceImpl extends AbstractService {
 
 	}
 
+	/**
+	 * This method to get instance of this class
+	 * 
+	 * @return EmployeeService instance
+	 */
+
 	public static EmployeeServiceImpl getInstance() {
 		return instance;
 	}
 
-	public void getEmpService() {
+	/**
+	 * This method to get connection for database
+	 * 
+	 * @throws SQLException           -Thrown when database access error occurs or
+	 *                                this method is called on a closed connection
+	 * @throws ClassNotFoundException -Thrown when an application tries to load in a
+	 *                                class through its string name using
+	 */
+
+	public void getEmployeeService() {
 		try {
 			connection = DBConnectionUtil.connectDB();
-			
-			
+
 		} catch (ClassNotFoundException exception) {
 			log.log(Level.SEVERE, exception.getMessage());
 		} catch (SQLException exception) {
@@ -56,6 +77,26 @@ public class EmployeeServiceImpl extends AbstractService {
 
 	}
 
+	/**
+	 * This read xml file and load data into ArrayList of Employee object
+	 * 
+	 * @throws NumberFormatException        -Thrown to indicate that the application
+	 *                                      has attempted to convert a string to one
+	 *                                      of the numeric types
+	 * @throws XPathExpressionException     -indicate an error in an XPath
+	 *                                      expression.
+	 * @throws SQLException                 -Thrown when database access error
+	 *                                      occurs or this method is called on a
+	 *                                      closed connection
+	 * @throws SAXException                 -Encapsulate a general SAX error or
+	 *                                      warning
+	 * @throws IOException                  -Exception produced by failed or
+	 *                                      interrupted I/O operations
+	 *
+	 * @throws ParserConfigurationException -Indicate a serious configuration error
+	 */
+
+	@Override
 	public void loadEmployeeFromXML() {
 
 		try {
@@ -89,6 +130,21 @@ public class EmployeeServiceImpl extends AbstractService {
 		}
 	}
 
+	/**
+	 * This method create employee table in database
+	 * 
+	 * @throws SQLException                 -Thrown when database access error
+	 *                                      occurs or this method is called on a
+	 *                                      closed connection
+	 * @throws SAXException                 -Encapsulate a general SAX error or
+	 *                                      warning
+	 * @throws IOException                  -Exception produced by failed or
+	 *                                      interrupted I/O operations
+	 *
+	 * @throws ParserConfigurationException -Indicate a serious configuration error
+	 */
+
+	@Override
 	public void employeeTableCreate() {
 
 		try {
@@ -113,6 +169,21 @@ public class EmployeeServiceImpl extends AbstractService {
 
 	}
 
+	/**
+	 * This method ADD employee
+	 * 
+	 * @throws SQLException                 -Thrown when database access error
+	 *                                      occurs or this method is called on a
+	 *                                      closed connection
+	 * @throws SAXException                 -Encapsulate a general SAX error or
+	 *                                      warning
+	 * @throws IOException                  -Exception produced by failed or
+	 *                                      interrupted I/O operations
+	 *
+	 * @throws ParserConfigurationException -Indicate a serious configuration error
+	 */
+
+	@Override
 	public void addEmployees() {
 
 		try {
@@ -157,6 +228,21 @@ public class EmployeeServiceImpl extends AbstractService {
 			}
 		}
 	}
+
+	/**
+	 * This method GET a employee details
+	 * 
+	 * @param eid ID of employee to get details
+	 * @throws SQLException                 -Thrown when database access error
+	 *                                      occurs or this method is called on a
+	 *                                      closed connection
+	 * @throws SAXException                 -Encapsulate a general SAX error or
+	 *                                      warning
+	 * @throws IOException                  -Exception produced by failed or
+	 *                                      interrupted I/O operations
+	 *
+	 * @throws ParserConfigurationException -Indicate a serious configuration error
+	 */
 
 	public void getEmployeeByID(String eid) {
 
@@ -204,6 +290,21 @@ public class EmployeeServiceImpl extends AbstractService {
 		}
 	}
 
+	/**
+	 * This method DELETE a employee
+	 * 
+	 * @param eid ID of employee to delete
+	 * @throws SQLException                 -Thrown when database access error
+	 *                                      occurs or this method is called on a
+	 *                                      closed connection
+	 * @throws SAXException                 -Encapsulate a general SAX error or
+	 *                                      warning
+	 * @throws IOException                  -Exception produced by failed or
+	 *                                      interrupted I/O operations
+	 *
+	 * @throws ParserConfigurationException -Indicate a serious configuration error
+	 */
+
 	public void deleteEmployee(String eid) {
 
 		try {
@@ -234,6 +335,21 @@ public class EmployeeServiceImpl extends AbstractService {
 		}
 	}
 
+	/**
+	 * This method DISPLAY all employees
+	 * 
+	 * @throws SQLException                 -Thrown when database access error
+	 *                                      occurs or this method is called on a
+	 *                                      closed connection
+	 * @throws SAXException                 -Encapsulate a general SAX error or
+	 *                                      warning
+	 * @throws IOException                  -Exception produced by failed or
+	 *                                      interrupted I/O operations
+	 *
+	 * @throws ParserConfigurationException -Indicate a serious configuration error
+	 */
+
+	@Override
 	public void displayEmployee() {
 
 		ArrayList<Employee> employeeList = new ArrayList<Employee>();
@@ -267,6 +383,12 @@ public class EmployeeServiceImpl extends AbstractService {
 
 		outputEmployee(employeeList);
 	}
+
+	/**
+	 * This method PRINT all employee details
+	 * 
+	 * @param employeeList ArrayList<Employee> Array of employee list to print
+	 */
 
 	public void outputEmployee(ArrayList<Employee> employeeList) {
 		DisplayUtil.displayEmployee(employeeList);

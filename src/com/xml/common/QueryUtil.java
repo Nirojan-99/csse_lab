@@ -4,12 +4,22 @@ import java.io.File;
 import java.io.IOException;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-//import javax.xml.transform.TransformerConfigurationException;
-//import javax.xml.transform.TransformerException;
-//import javax.xml.transform.TransformerFactoryConfigurationError;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+/*
+* Use to perform query connection
+*
+* @throws  SAXException
+* 				-Encapsulate a general SAX error or warning
+* @throws IOException
+* 				-Exception produced by failed or interrupted I/O operations
+*
+* @throws ParserConfigurationException
+* 				-Indicate a serious configuration error
+*
+*/
 
 public class QueryUtil extends ConfigUtil {
 

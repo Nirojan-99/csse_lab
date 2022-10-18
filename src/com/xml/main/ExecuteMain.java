@@ -23,6 +23,17 @@ public class ExecuteMain {
 	 */
 	public static final Logger log = Logger.getLogger(ExecuteMain.class.getName());
 
+	/**
+	 * main method
+	 * 
+	 * @throws TransformerException                 -specifies an exceptional
+	 *                                              condition that occurred during
+	 *                                              the transformation process.
+	 * @throws TransformerFactoryConfigurationError -Thrown when a problem with
+	 *                                              configuration with the
+	 *                                              Transformer Factories exists.
+	 */
+
 	public static void main(String[] args) {
 
 		EmployeeServiceImpl employeeService = EmployeeServiceImpl.getInstance();
@@ -32,9 +43,6 @@ public class ExecuteMain {
 			XSLTransformUtil.requestTransform();
 
 			employeeService.retriveEmployee();
-
-			employeeService.getEmployeeByID("EMP10004");
-			employeeService.deleteEmployee("EMP10001");
 
 		} catch (TransformerException exception) {
 			log.log(Level.SEVERE, exception.getMessage());
