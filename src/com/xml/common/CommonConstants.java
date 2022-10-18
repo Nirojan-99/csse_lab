@@ -20,7 +20,7 @@ public class CommonConstants {
 
 	public static final String PROPERTY_FILE = "../config/config.properties";
 
-	public static final String QUERY_TAG = "query";
+	public static final String TAG_NAME = "query";
 
 	public static final String ATTRIBUTE_ID = "id";
 
@@ -32,7 +32,7 @@ public class CommonConstants {
 
 	public static final String REQUEST_XML_PATH = "REQUEST_XML_PATH";
 
-	public static final String DRIVER_URL = "driverName";
+	public static final String DRIVER_NAME = "driverName";
 
 	public static final String USERNAME = "username";
 

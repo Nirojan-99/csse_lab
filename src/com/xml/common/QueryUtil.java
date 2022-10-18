@@ -20,7 +20,7 @@ public class QueryUtil extends ConfigUtil {
 
 		nodeList = DocumentBuilderFactory.newInstance().newDocumentBuilder()
 				.parse(new File(QueryUtil.properties.getProperty(CommonConstants.QUERY_FILE_PATH)))
-				.getElementsByTagName(CommonConstants.QUERY_TAG);
+				.getElementsByTagName(CommonConstants.TAG_NAME);
 
 		for (int x = 0; x < nodeList.getLength(); x++) {
 

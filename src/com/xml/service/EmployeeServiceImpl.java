@@ -1,14 +1,13 @@
 package com.xml.service;
 
 import com.xml.common.CommonConstants;
-import com.xml.common.ConfigUtil;
 import com.xml.common.DBConnectionUtil;
+import com.xml.common.DisplayUtil;
 import com.xml.common.QueryUtil;
 import com.xml.common.XSLTransformUtil;
 import com.xml.model.Employee;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Map;
-import java.util.Properties;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
@@ -29,11 +27,11 @@ public class EmployeeServiceImpl extends AbstractService {
 
 	private static Statement statement;
 
-	private PreparedStatement preparedStatement;
-
 	private static final Logger log = Logger.getLogger(EmployeeServiceImpl.class.getName());
 
 	private static EmployeeServiceImpl instance = new EmployeeServiceImpl();
+	
+	private PreparedStatement preparedStatement;
 
 	private EmployeeServiceImpl() {
 
@@ -231,20 +229,7 @@ public class EmployeeServiceImpl extends AbstractService {
 	}
 
 	public void outputEmployee(ArrayList<Employee> employeeList) {
-
-		System.out.println("Employee ID" + "\t\t" + "Full Name" + "\t\t" + "Address" + "\t\t" + "Faculty Name" + "\t\t"
-				+ "Department" + "\t\t" + "Designation" + "\n");
-		System.out.println(
-				"================================================================================================================");
-		for (int i = 0; i < employeeList.size(); i++) {
-
-			Employee e = employeeList.get(i);
-			System.out.println(e.getEmployeeID() + "\t" + e.getFullName() + "\t\t" + e.getAddress() + "\t"
-					+ e.getFacultyName() + "\t" + e.getDepartment() + "\t" + e.getDesignation() + "\n");
-			System.out.println(
-					"----------------------------------------------------------------------------------------------------------------");
-		}
-
+		DisplayUtil.displayEmployee(employeeList);
 	}
 
 }
